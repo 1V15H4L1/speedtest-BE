@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 dotenv.config();
 const port = process.env.PORT;
 app.use(express.json());
-app.use(cors);
+app.use(cors());
 mongoose.connect(process.env.uri).then(() => {
 	console.log("db connected");
 });
