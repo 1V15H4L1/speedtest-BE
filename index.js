@@ -26,11 +26,16 @@ app.post("/api/SignUp", async (req, res) => {
 			await User.create({
 				UserName: req.body.UserName,
 				Password: req.body.Password,
-				Name: req.body.Name
+				Name: req.body.Name,
 			});
 			res.json({ status: "Successfully added" });
 		} else {
-			await User.findByIdAndUpdate(user._id, { $set: req.body });
+			let usr = {
+				UserName: req.body.UserName,
+				Password: req.body.Password,
+				Name: user.Name
+			};
+			await User.findByIdAndUpdate(user._id, { $set: usr });
 			res.json({ status: "Successfully updated" });
 		}
 	} catch (err) {
@@ -48,7 +53,7 @@ app.post("/api/LogIn", async (req, res) => {
 			res.json({ status: "Not a registered user" });
 		} else {
 			if (req.body.Password === user.Password) {
-				res.json({ status: "Login Successful",Name: user.Name });
+				res.json({ status: "Login Successful", Name: user.Name });
 			} else {
 				res.json({ status: "Wrong Password" });
 			}
